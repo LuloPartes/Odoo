@@ -1,6 +1,7 @@
 /nssm
 /python
-/sessions
+/sessions/sessions
+/sessions/filestore
 /thirdparty
 /Uninstall.exe
 /vcredist

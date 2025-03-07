@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_zue_ecommerce_product_settings,zue.ecommerce.product.settings,model_zue_ecommerce_product_settings,,1,1,1,1
+access_zue_ecommerce_product_settings_fields,zue.ecommerce.product.settings.fields,model_zue_ecommerce_product_settings_fields,,1,1,1,1
+access_zue_filter_parameterization,zue.filter.parameterization,model_zue_filter_parameterization,,1,1,1,1

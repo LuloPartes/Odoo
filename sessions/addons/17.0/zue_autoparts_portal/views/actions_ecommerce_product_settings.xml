@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_zue_ecommerce_product_settings" model="ir.actions.act_window">
+            <field name="name">Configuración vista producto en el ecommerce</field>
+            <field name="res_model">zue.ecommerce.product.settings</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.view" id="zue_ecommerce_product_settings_list">
+            <field name="name">Configuración vista producto en el ecommerce tree</field>
+            <field name="model">zue.ecommerce.product.settings</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="z_company_id" options="{'no_open': True, 'no_create': True}"/>
+                    <field name="z_show_alternative_products"/>
+                    <field name="z_show_optional_products"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="zue_ecommerce_product_settings_form">
+            <field name="name">Configuración vista producto en el ecommerce form</field>
+            <field name="model">zue.ecommerce.product.settings</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="z_company_id" options="{'no_open': True, 'no_create': True}"/>
+                            </group>
+                            <group>
+                                <field name="z_show_alternative_products"/>
+                                <field name="z_show_optional_products"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="z_field_show_ids">
+                                <tree editable="bottom">
+                                    <field name="z_sequence" widget="handle"/>
+                                    <field name="z_field_show_id"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>
+

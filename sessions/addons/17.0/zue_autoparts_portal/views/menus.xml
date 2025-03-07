@@ -1,0 +1,6 @@
+<odoo>
+    <data>
+        <menuitem name="Vista producto ecommerce" id="zue_ecommerce_product_settings_menu" parent="website_sale.menu_ecommerce_settings" action="action_zue_ecommerce_product_settings" sequence="20"/>
+        <menuitem name="Parametrización Filtros E-commerce" id="zue_filter_parameterization" parent="website.menu_website_global_configuration" action="action_zue_filter_parameterization" sequence="60"/>
+    </data>
+</odoo>

@@ -1,0 +1,62 @@
+<odoo>
+    <data>
+
+        <menuitem name="Datos maestros" id="zue_autoparts.menu_master_data" parent="stock.menu_stock_config_settings"/>
+            <!-- Segmentos inventario -->
+            <menuitem name="Sistema inventario" id="zue_autoparts.menu_stock_segments" parent="zue_autoparts.menu_master_data" action="action_stock_segments" sequence="1"/>
+
+            <!-- SubSegmentos inventario -->
+            <menuitem name="División inventario" id="zue_autoparts.menu_stock_subsegments" parent="zue_autoparts.menu_master_data" action="action_stock_subsegments" sequence="2"/>
+            <!-- Clases inventario -->
+            <menuitem name="Familia inventario" id="zue_autoparts.menu_stock_class" parent="zue_autoparts.menu_master_data" action="action_stock_class" sequence="3"/>
+            <!-- Tipos de inventario -->
+            <menuitem name="Tipos de inventario" id="zue_autoparts.menu_stock_type" parent="zue_autoparts.menu_master_data" action="action_stock_type" sequence="5"/>
+            <!-- Tipos de inventario -->
+            <menuitem name="Marcas inventario" id="zue_autoparts.menu_stock_brands" parent="zue_autoparts.menu_master_data" action="action_stock_brands" sequence="6"/>
+            <!-- Configuración clientes -->
+<!--            <menuitem name="Tipos de clientes" id="zue_autoparts.menu_customer_classification" parent="contacts.res_partner_menu_config" action="action_customer_classification" sequence="7"/>-->
+            <!-- Ubicaciones especiales -->
+            <menuitem name="Ubicaciones especiales" id="zue_autoparts.menu_special_locations" parent="zue_autoparts.menu_master_data" action="action_zue_special_locations" sequence="9"/>
+        <!-- Menu Confi Autopartes -->
+        <menuitem name="Configuración Autopartes" id="zue_autoparts.menu_root"/>
+            <!-- Menu autopartes -->
+            <menuitem name="Autopartes" id="zue_autoparts.menu_confi_autoparts" sequence="0"
+                        parent="zue_autoparts.menu_root"/>
+                <!--  Sistema inventario -->
+                <menuitem name="Sistema inventario" id="zue_autoparts.menu_stock_segments"
+                          parent="zue_autoparts.menu_confi_autoparts" action="action_stock_segments" sequence="1"/>
+                <!--  División inventario -->
+                <menuitem name="División inventario" id="zue_autoparts.menu_stock_division"
+                                  parent="zue_autoparts.menu_confi_autoparts" action="action_stock_subsegments" sequence="2"/>
+                <!--  Familia inventario -->
+                <menuitem name="Familia inventario" id="zue_autoparts.menu_stock_family"
+                              parent="zue_autoparts.menu_confi_autoparts" action="action_stock_class" sequence="3"/>
+                <!--Tipos de inventario -->
+                <menuitem name="Tipos de inventario" id="zue_autoparts.menu_stock_types"
+                          parent="zue_autoparts.menu_confi_autoparts" action="action_stock_type" sequence="6"/>
+                <!-- Marcas inventario -->
+                <menuitem name="Marcas de inventario" id="zue_autoparts.menu_stock_conf_brands"
+                          parent="zue_autoparts.menu_confi_autoparts" action="action_stock_brands" sequence="7"/>
+                <!-- Configuracion autoparts -->
+                <menuitem name="Configuración atributos" action="action_settings_attributes_autoparts" parent="zue_autoparts.menu_confi_autoparts"
+                                  id="menu_settings_attributes_autoparts" sequence="11"/>
+                <!-- Estudio de mercado -->
+                <menuitem name="Estudio de mercado" action="action_market_research" parent="zue_autoparts.menu_confi_autoparts"
+                                          id="menu_market_research" sequence="13"/>
+            <!-- Menu Vehículo -->
+            <menuitem name="Vehículo" id="zue_autoparts.menu_confi_vehicle" sequence="8"
+                        parent="zue_autoparts.menu_root"/>
+                <!-- Menu marcas -->
+                <menuitem name="Fabricantes" action="zue_autoparts.fleet_vehicle_model_brand_autoparts_action" parent="zue_autoparts.menu_confi_vehicle"
+                          id="fleet_vehicle_model_brand_menu" sequence="9"/>
+                <!-- Menu linea del vehiculo -->
+                <menuitem name="Linea del vehículo" action="fleet.fleet_vehicle_model_action" parent="zue_autoparts.menu_confi_vehicle" id="fleet_vehicle_model_menu"
+                          sequence="10"/>
+                <!-- Configuracion flota -->
+                <menuitem name="Configuración atributos" action="action_settings_attributes_fleet" parent="zue_autoparts.menu_confi_vehicle"
+                                  id="menu_settings_attributes_fleet" sequence="12"/>
+                <!-- Menu especificaciones del vechiculo -->
+                <menuitem name="Especificaciones del vehículo" action="action_vehicle_specifications" parent="zue_autoparts.menu_confi_vehicle"
+                  id="menu_vehicle_specifications" sequence="14"/>
+    </data>
+</odoo>

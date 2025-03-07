@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--Segmentos inventario-->
+        <record id="action_stock_segments" model="ir.actions.act_window">
+            <field name="name">Sistema inventario</field>
+            <field name="res_model">stock.segments</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <record model="ir.ui.view" id="stock_segments_list">
+            <field name="name">stock segments list</field>
+            <field name="model">stock.segments</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="z_publish_ecommerce"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="stock_segments_search" model="ir.ui.view">
+            <field name="name">stock.segments.search</field>
+            <field name="model">stock.segments</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="code"/>
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <!--SubSegmentos inventario-->
+        <record id="action_stock_subsegments" model="ir.actions.act_window">
+            <field name="name">División inventario</field>
+            <field name="res_model">stock.subsegments</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <record model="ir.ui.view" id="stock_subsegments_list">
+            <field name="name">stock subsegments list</field>
+            <field name="model">stock.subsegments</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="segments_id"/>
+                    <field name="code"/>
+                    <field name="is_starter"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="stock_subsegments_search" model="ir.ui.view">
+            <field name="name">stock.subsegments.search</field>
+            <field name="model">stock.subsegments</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="segments_id"/>
+                    <field name="code"/>
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <!--Clases inventario-->
+        <record id="action_stock_class" model="ir.actions.act_window">
+            <field name="name">Familia inventario</field>
+            <field name="res_model">stock.class</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.view" id="stock_class_form">
+            <field name="name">stock class form</field>
+            <field name="model">stock.class</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="segments_id"/>
+                                <field name="subsegments_id"/>
+                                <field name="class_code"/>
+                                <field name="name"/>
+<!--                                <field name="tariff_id"/>-->
+<!--                                <field name="tariff_item" invisible="1"/>-->
+                            </group>
+                            <group>
+                                <field name="z_image" widget="image"/>
+                            </group>
+                        </group>
+<!--                        <notebook>-->
+<!--                            <page string="Atributos">-->
+<!--                                <field name="z_attributes_ids" nolabel="1" colspan="2">-->
+<!--                                    <tree>-->
+<!--                                        <field name="z_sequence" widget="handle"/>-->
+<!--                                        <field name="z_rec_name"/>-->
+<!--                                        <field name="z_type" invisible="1" force_save="1"/>-->
+<!--                                        <field name="z_attribute_setting_id" invisible="1" force_save="1"/>-->
+<!--                                    </tree>-->
+<!--                                    <form>-->
+<!--                                        <group>-->
+<!--                                            <field name="z_type"/>-->
+<!--                                            <field name="z_attribute_setting_id" invisible="z_type != 100" required="z_type == 100"/>-->
+<!--                                        </group>-->
+<!--                                    </form>-->
+<!--                                </field>-->
+<!--                            </page>-->
+<!--                        </notebook>-->
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="stock_class_tree">
+            <field name="name">stock class tree</field>
+            <field name="model">stock.class</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="segments_id"/>
+                    <field name="subsegments_id"/>
+                    <field name="class_code"/>
+                    <field name="name"/>
+<!--                    <field name="tariff_id"/>-->
+<!--                    <field name="tariff_item" invisible="1"/>-->
+<!--                    <field name="tariff_rate"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <record id="stock_class_search" model="ir.ui.view">
+            <field name="name">stock.class.search</field>
+            <field name="model">stock.class</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="segments_id"/>
+                    <field name="subsegments_id"/>
+                    <field name="class_code"/>
+                    <field name="name"/>
+<!--                    <field name="tariff_item"/>-->
+<!--                    <field name="tariff_rate"/>-->
+                </search>
+            </field>
+        </record>
+
+        <!--Tipos de inventario-->
+        <record id="action_stock_type" model="ir.actions.act_window">
+            <field name="name">Tipos de inventario</field>
+            <field name="res_model">stock.type</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <record model="ir.ui.view" id="stock_type_list">
+            <field name="name">stock type list</field>
+            <field name="model">stock.type</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="stock_type_search" model="ir.ui.view">
+            <field name="name">stock.type.search</field>
+            <field name="model">stock.type</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="code"/>
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <!--Marcas inventario-->
+        <record id="action_stock_brands" model="ir.actions.act_window">
+            <field name="name">Marcas inventario</field>
+            <field name="res_model">stock.brands</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <record model="ir.ui.view" id="stock_brands_list">
+            <field name="name">stock brands list</field>
+            <field name="model">stock.brands</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="image_1920"/>
+                    <field name="z_is_exclusive"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="stock_brands_search" model="ir.ui.view">
+            <field name="name">stock.brands.search</field>
+            <field name="model">stock.brands</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="z_is_exclusive"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="res_country_form_company" model="ir.ui.view">
+            <field name="name">res.country.form.inherit</field>
+            <field name="model">res.country</field>
+            <field name="priority">40</field>
+            <field name="inherit_id" ref="base.view_country_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state_required']" position="after">
+                    <field name="inventory_source"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Configuración Atributos autopartes -->
+        <record id="action_settings_attributes_autoparts" model="ir.actions.act_window">
+            <field name="name">Configuración atributos autopartes</field>
+            <field name="res_model">zue.settings.autoparts</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.view" id="settings_attributes_autoparts_list">
+            <field name="name">settings attributes autoparts list</field>
+            <field name="model">zue.settings.autoparts</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="z_type"/>
+                    <field name="z_name" />
+                    <field name="z_identifier"/>
+                    <field name="z_value"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="settings_attributes_autoparts_form">
+            <field name="name">settings_attributes_autoparts_form</field>
+            <field name="model">zue.settings.autoparts</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="z_type"/>
+                                <field name="z_name" invisible="z_type != 100" required="z_type == 100"/>
+                            </group>
+                            <group>
+                                <field name="z_identifier" invisible="z_type == 100" required="z_type != 100"/>
+                                <field name="z_value" invisible="z_type == 100" required="z_type != 100"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Configuración atributos flota -->
+        <record id="action_settings_attributes_fleet" model="ir.actions.act_window">
+            <field name="name">Configuración Atributos flota</field>
+            <field name="res_model">zue.settings.fleet</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.view" id="settings_attributes_fleet_list">
+            <field name="name">settings attributes fleet list</field>
+            <field name="model">zue.settings.fleet</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="z_type"/>
+                    <field name="z_name" />
+                    <field name="z_identifier"/>
+                    <field name="z_value"/>
+                    <field name="z_publish_ecommerce"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="settings_attributes_fleet_form">
+            <field name="name">settings_attributes_fleet_form</field>
+            <field name="model">zue.settings.fleet</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="z_type"/>
+                                <field name="z_name" invisible="z_type != 100" required="z_type == 100"/>
+                            </group>
+                            <group>
+                                <field name="z_identifier" invisible="z_type == 100" required="z_type != 100"/>
+                                <field name="z_value" invisible="z_type == 100" required="z_type != 100" />
+                                <field name="z_publish_ecommerce"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Estudio de mercado -->
+        <record id="action_market_research" model="ir.actions.act_window">
+            <field name="name">Estudio de mercado</field>
+            <field name="res_model">zue.market.research</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <record model="ir.ui.view" id="market_research_list">
+            <field name="name">market_research_list</field>
+            <field name="model">zue.market.research</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="z_supplier_name"/>
+                    <field name="z_supplier_description"/>
+                    <field name="z_equivalences"/>
+                    <field name="z_market_code"/>
+                    <field name="z_value"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>
+
+

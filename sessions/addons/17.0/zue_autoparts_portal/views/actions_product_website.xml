@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="zue_autoparts_portal.product" inherit_id="website_sale.product"
+              name="Zue Autopartes Portal: Product">
+        <xpath expr="//div[@id='product_full_description']"
+               position="after">
+            <style>
+                .modal-open #wrapwrap {
+                    overflow: auto;
+                }
+            </style>
+            <ul class="nav nav-tabs justify-content-center" role="tablist">
+                <li class="nav-item o_not_editable">
+                    <a class="nav-link" data-toggle="tab" href="#zue-general-information" role="tab"
+                       aria-selected="false">
+                        <div class="my-1 tp-tab-title">
+                            <span class="fa fa-cogs mr-1"/>
+                            Información General
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <!--                 Informacion general-->
+            <div groups="base.group_user" class="tab-pane fade show active" id="zue-general-information"
+                 role="tabpanel">
+                <div class="container-fluid">
+                    <div class="row m-0 py-2">
+                        <div class="col-12">
+                            <div style="display: -webkit-box;-webkit-box-pack: center;justify-content: center;">
+                                <div class="p-2 flex-grow-1 bd-highlight"
+                                     style="-webkit-box-flex: 1;-webkit-flex: 1;flex: 1;">
+                                    <b>FAMILIA:</b>
+                                    <span t-esc="product.class_id.name"/>
+                                </div>
+                                <div class="p-2 bd-highlight" style="-webkit-box-flex: 1;-webkit-flex: 1;flex: 1;">
+                                    <b>SISTEMA:</b>
+                                    <span t-esc="product.segments_id.name"/>
+                                </div>
+                                <div class="p-2 bd-highlight" style="-webkit-box-flex: 1;-webkit-flex: 1;flex: 1;">
+                                    <b>DIVISIÓN:</b>
+                                    <span t-esc="product.subsegments_id.name"/>
+                                </div>
+                            </div>
+                            <div style="display: -webkit-box;-webkit-box-pack: center;justify-content: center;">
+                                <div class="p-2 flex-grow-1 bd-highlight"
+                                     style="-webkit-box-flex: 1;-webkit-flex: 1;flex: 1;">
+                                    <b>MARCA:</b>
+                                    <span t-esc="product.brands_id.name"/>
+                                </div>
+                                <div class="p-2 bd-highlight" style="-webkit-box-flex: 1;-webkit-flex: 1;flex: 1;">
+                                    <b>PROCEDENCIA:</b>
+                                    <span t-esc="product.source_id.name"/>
+                                </div>
+                                <div class="p-2 bd-highlight" style="-webkit-box-flex: 1;-webkit-flex: 1;flex: 1;">
+                                    <b>TIPO DE ORIGEN:</b>
+                                    <span t-esc="product.type_id.name"/>
+                                </div>
+                            </div>
+                            <div style="display: -webkit-box;-webkit-box-pack: center;justify-content: center;">
+                                <div class="p-2 flex-grow-1 bd-highlight"
+                                     style="-webkit-box-flex: 1;-webkit-flex: 1;flex: 1;">
+                                    <h5>
+                                        <strong>Características</strong>
+                                    </h5>
+                                    <table class="table table-responsive-md">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Nombre</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="product.z_attributes_product_ids" t-as="att">
+                                                <tr>
+                                                    <td>
+                                                        <span t-esc="att.display_name"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="p-2 flex-grow-1 bd-highlight"
+                                     style="-webkit-box-flex: 1;-webkit-flex: 1;flex: 1;">
+                                    <h5>
+                                        <strong>Vehículos Compatibles</strong>
+                                    </h5>
+                                    <table class="table table-responsive-md">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Marca</th>
+                                                <th>Línea</th>
+                                                <th>Tipo de Vehículo</th>
+                                                <th>Año inicial</th>
+                                                <th>Año final</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="product.vehicle_destination_ids" t-as="veh">
+                                                <tr>
+                                                    <td>
+                                                        <span t-esc="veh.vehicle_brand_id.display_name"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="veh.vehicle_line_id.display_name"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="veh.vehicle_type"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="veh.initial_year"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="veh.final_year"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="product_tabs" name="Theme Prime: Product Tabs">
+        <div class="tp-product-details-tab">
+            <ul class="nav nav-tabs justify-content-center" role="tablist">
+                <li groups="base.group_public,base.group_portal" t-if="product.website_description"
+                    class="nav-item o_not_editable">
+                    <a class="nav-link active" data-toggle="tab" href="#tp-product-description-tab" role="tab"
+                       aria-selected="true">
+                        <div class="my-1 tp-tab-title">
+                            <span class="fa fa-file-text-o mr-1"/>
+                            Description
+                        </div>
+                    </a>
+                </li>
+                <li groups="base.group_user" class="nav-item o_not_editable">
+                    <a class="nav-link active" data-toggle="tab" href="#tp-product-description-tab" role="tab"
+                       aria-selected="true">
+                        <div class="my-1 tp-tab-title">
+                            <span class="fa fa-file-text-o mr-1"/>
+                            Description
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item o_not_editable">
+                    <a class="nav-link" data-toggle="tab" href="#zue-general-information" role="tab"
+                       aria-selected="false">
+                        <div class="my-1 tp-tab-title">
+                            <span class="fa fa-cogs mr-1"/>
+                            Información General
+                        </div>
+                    </a>
+                </li>
+                <li t-if="is_view_active('website_sale_comparison.product_attributes_body')"
+                    class="nav-item o_not_editable">
+                    <a class="nav-link" data-toggle="tab" href="#tp-product-specification-tab" role="tab"
+                       aria-selected="false">
+                        <div class="my-1 tp-tab-title">
+                            <span class="fa fa-sliders mr-1"/>
+                            Specifications
+                        </div>
+                    </a>
+                </li>
+                <t t-set="product_documents_ids" t-value="product.sudo().dr_document_ids"/>
+                <li t-if="product_documents_ids" class="nav-item o_not_editable">
+                    <a class="nav-link" data-toggle="tab" href="#tp-product-documents-tab" role="tab"
+                       aria-selected="false">
+                        <div class="my-1 tp-tab-title">
+                            <span class="fa fa-file-pdf-o mr-1"/>
+                            Documents
+                        </div>
+                    </a>
+                </li>
+                <li t-if="is_view_active('website_sale.product_comment')" class="nav-item o_not_editable">
+                    <a class="nav-link" data-toggle="tab" href="#tp-product-rating-tab" role="tab"
+                       aria-selected="false">
+                        <div class="my-1 tp-tab-title">
+                            <span class="fa fa-comments-o mr-1"/>
+                            Reviews &amp; Rating
+                        </div>
+                    </a>
+                </li>
+                <!-- Dynamic Tabs -->
+                <li t-foreach="product.dr_product_tab_ids" t-as="tab" class="nav-item o_not_editable">
+                    <a class="nav-link" data-toggle="tab" t-attf-href="#tp-product-tab-#{tab.id}" role="tab"
+                       aria-selected="false">
+                        <div class="my-1 tp-tab-title">
+                            <span t-attf-class="fa fa-#{tab.icon} mr-1"/>
+                            <span t-field="tab.name"/>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <!-- Description -->
+                <div groups="base.group_public,base.group_portal" t-if="product.website_description"
+                     class="tab-pane fade show active" id="tp-product-description-tab" role="tabpanel">
+                    <div class="container-fluid">
+                        <div class="row m-0 py-2">
+                            <div class="col-12">
+                                <div itemprop="description" t-field="product.website_description" class="oe_structure"
+                                     id="product_full_description"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div groups="base.group_user" class="tab-pane fade show active" id="tp-product-description-tab"
+                     role="tabpanel">
+                    <div class="container-fluid">
+                        <div class="row m-0 py-2">
+                            <div class="col-12">
+                                <div itemprop="description" t-field="product.website_description" class="oe_structure"
+                                     id="product_full_description"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Specifications -->
+                <div t-if="is_view_active('website_sale_comparison.product_attributes_body')" class="tab-pane fade"
+                     id="tp-product-specification-tab" role="tabpanel">
+                    <section class="container border-0" id="product_full_spec">
+                        <t t-set="categories"
+                           t-value="product.valid_product_template_attribute_line_ids._prepare_categories_for_display()"/>
+                        <t t-if="categories">
+                            <div class="row py-4">
+                                <div class="col-12 col-lg-8 offset-lg-2" id="product_specifications">
+                                    <table class="table mb-0 border">
+                                        <t t-foreach="categories" t-as="categ">
+                                            <t t-if="len(categories) &gt; 1">
+                                                <tr class="shadow-sm bg-light">
+                                                    <th class="text-left" t-att-colspan="2">
+                                                        <span t-if="categ" t-field="categ.name"/>
+                                                        <span t-else="">Uncategorized</span>
+                                                    </th>
+                                                </tr>
+                                            </t>
+                                            <tr t-foreach="categories[categ].filtered(lambda l: len(l.value_ids) &gt; 1)"
+                                                t-as="ptal">
+                                                <td>
+                                                    <span t-field="ptal.attribute_id.name"/>
+                                                </td>
+                                                <td>
+                                                    <t t-foreach="ptal.value_ids" t-as="pav">
+                                                        <span t-field="pav.name"/>
+                                                        <t t-if="not pav_last">or</t>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <t t-set="single_value_attributes"
+                                               t-value="categories[categ]._prepare_single_value_for_display()"/>
+                                            <tr t-foreach="single_value_attributes" t-as="attribute">
+                                                <td>
+                                                    <span t-field="attribute.name"/>
+                                                </td>
+                                                <td>
+                                                    <t t-foreach="single_value_attributes[attribute]" t-as="ptal">
+                                                        <span t-field="ptal.product_template_value_ids._only_active().name"/>
+                                                        <t t-if="not ptal_last">,</t>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </table>
+                                </div>
+                            </div>
+                        </t>
+                        <div class="p-4 text-center" t-else="">
+                            No Specifications
+                        </div>
+                    </section>
+                </div>
+                <!-- Documents -->
+                <div t-if="product_documents_ids" class="tab-pane fade" id="tp-product-documents-tab" role="tabpanel">
+                    <div class="container">
+                        <div class="row py-4">
+                            <t t-foreach="product_documents_ids" t-as="document">
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-3 my-2">
+                                    <div class="d-flex align-items-center p-2 border">
+                                        <div class="o_image" t-att-data-mimetype="document.mimetype"/>
+                                        <div class="ml-2 text-truncate">
+                                            <div t-field="document.name" t-att-title="document.name"/>
+                                            <a t-attf-href="/web/content/#{document.id}?download=true"
+                                               class="btn btn-primary-soft btn-sm mt-1">
+                                                <i class="fa fa-download"/>
+                                                Download
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+                <!-- Rating -->
+                <div t-if="is_view_active('website_sale.product_comment')" class="tab-pane fade"
+                     id="tp-product-rating-tab" role="tabpanel">
+                    <div class="o_shop_discussion_rating container">
+                        <section class="container">
+                            <div class="row mt-4">
+                                <div class="col-lg-8 offset-lg-2">
+                                    <t t-call="portal.message_thread">
+                                        <t t-set="object" t-value="product"/>
+                                        <t t-set="display_rating" t-value="True"/>
+                                    </t>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <!-- Dynamic Tabs -->
+                <div t-foreach="product.dr_product_tab_ids" t-as="tab" class="tab-pane fade"
+                     t-attf-id="tp-product-tab-#{tab.id}" role="tabpanel">
+                    <div class="container-fluid">
+                        <div class="row m-0 py-2">
+                            <div class="col-12">
+                                <div t-field="tab.content"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>
