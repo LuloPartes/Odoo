@@ -1,0 +1,54 @@
+<odoo>
+    <data>
+
+        <record model="ir.actions.act_window" id="action_zue_filter_parameterization">
+            <field name="name">Parametrización Filtros E-commerce</field>
+            <field name="res_model">zue.filter.parameterization</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.view" id="zue_filter_parameterization_list">
+            <field name="name">Parametrización Filtros E-commerce</field>
+            <field name="model">zue.filter.parameterization</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="z_sequence" widget="handle"/>
+                    <field name="z_company_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="zue_filter_parameterization_form">
+            <field name="name">Parametrización Filtros E-commerce</field>
+            <field name="model">zue.filter.parameterization</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="z_company_id"/>
+                            </group>
+                        </group>
+                        <group string="Filtros a ver en el E-commerce">
+                            <group string="Filtros Autopartes">
+                                <field name="z_make_autoparts"/>
+                                <field name="z_system_autoparts"/>
+                                <field name="z_division_autoparts"/>
+                                <field name="z_family_autoparts"/>
+                                <field name="z_features_autopars"/>
+                            </group>
+                            <group string="Filtros Vehículo">
+                                <field name="z_vehicle_specifications"/>
+                                <field name="z_vehicle_specifications_view" invisible="z_vehicle_specifications == False"/>
+                                <field name="z_static_vehicle_type" invisible="z_vehicle_specifications == False"/>
+                                <field name="z_stock_vehicle_type" invisible="z_vehicle_specifications == False"/>
+                                <field name="z_initial_year" invisible="z_vehicle_specifications == False"/>
+                                <field name="z_features_vehicle" invisible="z_vehicle_specifications == False"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

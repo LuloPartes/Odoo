@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_zue_autoparts_form_fleet_vehicle_model" model="ir.ui.view">
+            <field name="name">zue_autoparts.fleet_vehicle_model_inherit</field>
+            <field name="model">fleet.vehicle.model</field>
+            <field name="priority">20</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_model_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='model_year']" position="after">
+                    <field name="z_final_model_year"/>
+                </xpath>
+                <xpath expr="//field[@name='model_year']" position="attributes">
+                    <attribute name="string">Año del modelo - Desde</attribute>
+                </xpath>
+                <xpath expr="//page[@name='vendors']" position="after">
+                    <page string="Atributos">
+                        <field name="z_attributes_ids" nolabel="1" colspan="2">
+                            <tree>
+                                <field name="z_sequence" widget="handle"/>
+                                <field name="z_rec_name"/>
+                                <field name="z_type" column_invisible="1" force_save="1"/>
+                                <field name="z_attribute_setting_id" column_invisible="1" force_save="1"/>
+                            </tree>
+                            <form>
+                                <group>
+                                    <field name="z_type"/>
+                                    <field name="z_attribute_setting_id"
+                                           invisible="z_type != '100'" required="z_type == '100'"/>
+                                </group>
+                            </form>
+                        </field>
+                    </page>
+                </xpath>
+                <xpath expr="//field[@name='vehicle_type']" position="after">
+                    <field name="z_origin_country"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_zue_autoparts_form_fleet_vehicle" model="ir.ui.view">
+			<field name="name">zue_autoparts.fleet_vehicle_inherit_form</field>
+			<field name="model">fleet.vehicle</field>
+			<field name="priority">50</field>
+			<field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+			<field name="arch" type="xml">
+                <xpath expr="//field[@name='location']" position="after">
+                    <field name="z_specifications"/>
+                </xpath>
+			</field>
+		</record>
+
+        <!-- Vistas de Especificaciones del vehículo -->
+        <record id="action_vehicle_specifications" model="ir.actions.act_window">
+            <field name="name">Especificaciones del vehículo</field>
+            <field name="res_model">zue.vehicle.specifications</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.view" id="vehicle_specifications_list">
+            <field name="name">vehicle specifications list</field>
+            <field name="model">zue.vehicle.specifications</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="z_name"/>
+                    <field name="z_vehicle_line_id"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="vehicle_specifications_form">
+            <field name="name">vehicle specifications form</field>
+            <field name="model">zue.vehicle.specifications</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="z_name" placeholder="Descripción"/>
+                            <field name="z_vehicle_line_id"/>
+                        </group>
+                        <notebook>
+                            <page string="Atributos" nolabel="1">
+                                <group>
+                                    <field name="z_attributes_vehicle_ids" colspan="2" nolabel="1">
+                                        <tree create="0" delete="0">
+                                            <field name="z_sequence" column_invisible="1"/>
+                                            <field name="z_rec_name"/>
+                                            <field name="z_value" column_invisible="1"/>
+                                            <field name="z_attribute_setting_id" column_invisible="1"/>
+                                        </tree>
+                                        <form update="1" create="0" delete="0">
+                                            <group>
+                                                <field name="z_type" readonly="1" force_save="1"/>
+                                                <field name="z_attribute_setting_id"
+                                                       invisible="z_type == '100'" readonly="z_type == '100'" required="z_type != '100'"
+                                                       string="Valor" force_save="1"/>
+                                                <field name="z_attribute_setting_id"
+                                                       invisible="z_type != '100'" readonly="z_type == '100'" required="z_type != '100'"
+                                                       string="Atributo" force_save="1"/>
+                                                <field name="z_value"
+                                                       invisible="z_type != '100'" required="z_type == '100'"
+                                                       force_save="1"/>
+                                                <field name="z_rec_name" invisible="1"/>
+                                            </group>
+                                        </form>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id='fleet_vehicle_model_brand_autoparts_action' model='ir.actions.act_window'>
+            <field name="name">Fabricantes</field>
+            <field name="res_model">fleet.vehicle.model.brand</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[("z_check_visible","=",False)]</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Crear un nuevo fabricante
+              </p>
+            </field>
+        </record>
+
+        <record id="view_zue_autoparts_fleet_vehicle_model_brand_inherit" model="ir.ui.view">
+			<field name="name">view_zue_autoparts_fleet_vehicle_model_brand_inherit</field>
+			<field name="model">fleet.vehicle.model.brand</field>
+			<field name="priority">50</field>
+			<field name="inherit_id" ref="fleet.fleet_vehicle_model_brand_view_form"/>
+			<field name="arch" type="xml">
+                <xpath expr="//group[1]" position="after">
+                    <group>
+                        <field name="z_check_visible"/>
+                    </group>
+                </xpath>
+			</field>
+		</record>
+
+    </data>
+</odoo>

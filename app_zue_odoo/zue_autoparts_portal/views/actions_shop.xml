@@ -1,0 +1,668 @@
+<odoo>
+    <data>
+        <template id="zue_autoparts_portal.products" inherit_id="website_sale.products"
+                  name="Zue Autopartes Portal: Products">
+            <xpath expr="//div[@id='wrap']" position="before">
+                <!-- https://harvesthq.github.io/chosen/ -->
+                <script src="https://code.jquery.com/jquery-3.6.4.min.js"/>
+                <link rel="stylesheet" href="zue_autoparts_portal/static/chosen_v1.8.7/chosen.min.css"/>
+                <script src="zue_autoparts_portal/static/chosen_v1.8.7/chosen.jquery.min.js"/>
+                <style>
+                    .modal-open #wrapwrap {
+                    overflow: auto;
+                    }
+                </style>
+                <script>
+                    $(document).ready(function() {
+                    $('.js-example-basic-multiple').chosen({
+                    max_selected_options: 1,
+                    no_results_text: "No se encontraron resultados!",
+                    placeholder_text_multiple: "...",
+                    width: "80%"
+                    });
+                    $('.js-example-basic-multiple').on('change', function () {
+                    $(this).closest('form').submit();
+                    });
+                    });
+                </script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                    document.body.classList.remove('modal-open');
+                    const searchInputs = document.querySelectorAll('.zue-search');
+
+                    searchInputs.forEach(input => {
+                    input.addEventListener('input', function() {
+                    const searchTerm = input.value.toLowerCase();
+                    const filterId = input.getAttribute('data-filter-id');
+
+                    const filterList = document.querySelector(`ul[data-filter-list="${filterId}"]`);
+                    const items = filterList.getElementsByTagName('li');
+
+                    for (let i = 0; i &lt; items.length; i++) {
+                    const item = items[i];
+                    const searchTermData = item.getAttribute('data-search-term');
+
+                    if (searchTermData.includes(searchTerm)) {
+                    item.style.display = '';
+                    } else {
+                    item.style.display = 'none';
+                    }
+                    }
+                    });
+                    });
+                    });
+                </script>
+            </xpath>
+        </template>
+
+        <template id="zue_autoparts_portal.products_top_filters_zue"
+                  name="Zue Autopartes Portal - Top Filtros">
+            <div class="zue-top-filters mb-3">
+                <form class="js_attributes" method="get"
+                      t-if="obj_filter_parameterization.z_vehicle_specifications and obj_filter_parameterization.z_vehicle_specifications_view in ['both','top']">
+                    <div class="card-group rounded-0">
+                        <t t-call="zue_autoparts_portal.filter_autoparts_fleet_combo">
+                            <t t-set="selected" t-value="selected_brandsvehicle"/>
+                            <t t-set="title" t-value="'Marca'"/>
+                            <t t-set="obj" t-value="obj_brands_vehicle"/>
+                            <t t-set="name" t-value="'brandvehicle'"/>
+                            <t t-set="active_search" t-value="True"/>
+                            <t t-set="is_collapsible" t-value="True"/>
+                            <t t-set="show_label" t-value="'field_name'"/>
+                        </t>
+                        <t t-call="zue_autoparts_portal.filter_autoparts_fleet_combo">
+                            <t t-set="selected" t-value="selected_vechiclemodel"/>
+                            <t t-set="title" t-value="'Línea vehículo'"/>
+                            <t t-set="obj" t-value="obj_vehicle_model"/>
+                            <t t-set="name" t-value="'vechiclemodel'"/>
+                            <t t-set="active_search" t-value="True"/>
+                            <t t-set="is_collapsible" t-value="True"/>
+                            <t t-set="show_label" t-value="'field_display_name'"/>
+                        </t>
+                        <div class="card rounded-0">
+                            <div class="card-header p-1 rounded-0 bg-primary text-light">
+                                <h5 class="card-title text-center m-0">
+                                    Año
+                                </h5>
+                            </div>
+                            <div class="card-body p-0 rounded-0">
+                                <select class="form-select rounded-0" t-att-id="'vehicleyear'"
+                                        t-att-name="'vehicleyear'">
+                                    <option value="0">--Seleccione--</option>
+                                    <t t-foreach="sorted(range(obj_filter_parameterization.z_initial_year, next_year), reverse=True)"
+                                       t-as="filter_year">
+                                        <option t-att-id="filter_year" t-att-value="filter_year"
+                                                t-att-selected="'selected' if filter_year in selected_vechicleyear else None">
+                                            <span t-esc="filter_year"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                        <t t-call="zue_autoparts_portal.filter_autoparts_fleet_combo"
+                           t-if="obj_vehicle_type and obj_filter_parameterization.z_static_vehicle_type">
+                            <t t-set="selected" t-value="selected_vehicletype"/>
+                            <t t-set="title" t-value="'Tipo de vehículo'"/>
+                            <t t-set="obj" t-value="obj_vehicle_type"/>
+                            <t t-set="name" t-value="'vehicletype'"/>
+                            <t t-set="active_search" t-value="True"/>
+                            <t t-set="is_collapsible" t-value="True"/>
+                            <t t-set="show_label" t-value="'field_name'"/>
+                        </t>
+                        <t t-call="zue_autoparts_portal.filter_autoparts_fleet_combo"
+                           t-if="obj_stock_vehicle_type and obj_filter_parameterization.z_stock_vehicle_type">
+                            <t t-set="selected" t-value="selected_stock_vehicletype"/>
+                            <t t-set="title" t-value="'Tipo de vehículo'"/>
+                            <t t-set="obj" t-value="obj_stock_vehicle_type"/>
+                            <t t-set="name" t-value="'stock_vehicletype'"/>
+                            <t t-set="active_search" t-value="True"/>
+                            <t t-set="is_collapsible" t-value="True"/>
+                            <t t-set="show_label" t-value="'field_display_name'"/>
+                        </t>
+                    </div>
+                </form>
+            </div>
+        </template>
+
+        <template id="zue_autoparts_portal.products_filters_zue"
+                  name="Zue Autopartes Portal - Aside Filtros">
+            <form class="js_attributes" method="get">
+                <ul class="nav nav-pills flex-column">
+                    <li class="list-group-item bg-primary text-light">
+                        <h5 class="mb-0">
+                            <span class="fa fa-cog"/>
+                            <u>Autoparte</u>
+                        </h5>
+                    </li>
+                    <!-- Marca producto -->
+                    <li t-if="obj_brands and obj_filter_parameterization.z_make_autoparts" class="list-group-item"
+                        style="padding-left: 20px;">
+                        <t t-call="zue_autoparts_portal.filter_autoparts_fleet">
+                            <t t-set="selected" t-value="selected_brands"/>
+                            <t t-set="title" t-value="'Marca'"/>
+                            <t t-set="obj" t-value="obj_brands"/>
+                            <t t-set="name" t-value="'brand'"/>
+                            <t t-set="active_search" t-value="True"/>
+                            <t t-set="is_collapsible" t-value="True"/>
+                            <t t-set="show_label" t-value="'field_name'"/>
+                        </t>
+                    </li>
+                    <!-- Sistema -->
+                    <li t-if="obj_segments and obj_filter_parameterization.z_system_autoparts" class="list-group-item"
+                        style="padding-left: 20px;">
+                        <t t-call="zue_autoparts_portal.filter_autoparts_fleet">
+                            <t t-set="selected" t-value="selected_system"/>
+                            <t t-set="title" t-value="'Sistema'"/>
+                            <t t-set="obj" t-value="obj_segments"/>
+                            <t t-set="name" t-value="'system'"/>
+                            <t t-set="active_search" t-value="True"/>
+                            <t t-set="is_collapsible" t-value="True"/>
+                            <t t-set="show_label" t-value="'field_name'"/>
+                        </t>
+                    </li>
+                    <!-- División -->
+                    <li t-if="obj_subsegments and obj_filter_parameterization.z_division_autoparts"
+                        class="list-group-item" style="padding-left: 20px;">
+                        <t t-call="zue_autoparts_portal.filter_autoparts_fleet">
+                            <t t-set="selected" t-value="selected_division"/>
+                            <t t-set="title" t-value="'División'"/>
+                            <t t-set="obj" t-value="obj_subsegments"/>
+                            <t t-set="name" t-value="'division'"/>
+                            <t t-set="active_search" t-value="True"/>
+                            <t t-set="is_collapsible" t-value="True"/>
+                            <t t-set="show_label" t-value="'field_name'"/>
+                        </t>
+                    </li>
+                    <!-- Familia -->
+                    <li t-if="obj_class and obj_filter_parameterization.z_family_autoparts" class="list-group-item"
+                        style="padding-left: 20px;">
+                        <t t-call="zue_autoparts_portal.filter_autoparts_fleet">
+                            <t t-set="selected" t-value="selected_family"/>
+                            <t t-set="title" t-value="'Familia'"/>
+                            <t t-set="obj" t-value="obj_class"/>
+                            <t t-set="name" t-value="'family'"/>
+                            <t t-set="active_search" t-value="True"/>
+                            <t t-set="is_collapsible" t-value="True"/>
+                            <t t-set="show_label" t-value="'field_name'"/>
+                        </t>
+                    </li>
+                    <!-- Atributos -->
+                    <li class="list-group-item" style="padding-left: 20px;"
+                        t-if="obj_filter_parameterization.z_features_autopars">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h6 class="mb-0">
+                                Características
+                            </h6>
+                        </div>
+                        <div class="pt-3">
+                            <!--                        <div class="input-group input-group-sm mb-3">-->
+                            <!--                            <input type="text" class="form-control zue-search" placeholder="Search..."/>-->
+                            <!--                            <div class="input-group-append">-->
+                            <!--                                <span class="input-group-text bg-white border-0">-->
+                            <!--                                    <i class="dri dri-search-l text-body"/>-->
+                            <!--                                </span>-->
+                            <!--                            </div>-->
+                            <!--                        </div>-->
+                            <div class="d-flex flex-row bd-highlight mb-3">
+                                <div t-if="obj_attributes_autoparts_conectores" class="flex-fill p-2 bd-highlight"
+                                     style="width: 50%;">
+                                    <t t-call="zue_autoparts_portal.filter_autoparts_fleet">
+                                        <t t-set="selected" t-value="selected_conectores"/>
+                                        <t t-set="title" t-value="'Conectores'"/>
+                                        <t t-set="obj" t-value="obj_attributes_autoparts_conectores"/>
+                                        <t t-set="name" t-value="'conectores'"/>
+                                        <t t-set="active_search" t-value="False"/>
+                                        <t t-set="is_collapsible" t-value="False"/>
+                                        <t t-set="show_label" t-value="'field_display_name_replace'"/>
+                                    </t>
+                                </div>
+                                <div t-if="obj_attributes_autoparts_protocolos" class="flex-fill p-2 bd-highlight"
+                                     style="width: 50%;">
+                                    <t t-call="zue_autoparts_portal.filter_autoparts_fleet">
+                                        <t t-set="selected" t-value="selected_protocolos"/>
+                                        <t t-set="title" t-value="'Protocolos'"/>
+                                        <t t-set="obj" t-value="obj_attributes_autoparts_protocolos"/>
+                                        <t t-set="name" t-value="'protocolos'"/>
+                                        <t t-set="active_search" t-value="False"/>
+                                        <t t-set="is_collapsible" t-value="False"/>
+                                        <t t-set="show_label" t-value="'field_display_name_replace'"/>
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row bd-highlight mb-3">
+                                <div t-if="obj_attributes_autoparts_sistemaelec" class="flex-fill p-2 bd-highlight"
+                                     style="width: 50%;">
+                                    <t t-call="zue_autoparts_portal.filter_autoparts_fleet">
+                                        <t t-set="selected" t-value="selected_sistemaelec"/>
+                                        <t t-set="title" t-value="'Sistema Eléctrico'"/>
+                                        <t t-set="obj" t-value="obj_attributes_autoparts_sistemaelec"/>
+                                        <t t-set="name" t-value="'sistemaelec'"/>
+                                        <t t-set="active_search" t-value="False"/>
+                                        <t t-set="is_collapsible" t-value="False"/>
+                                        <t t-set="show_label" t-value="'field_display_name_replace'"/>
+                                    </t>
+                                </div>
+                                <div t-if="obj_attributes_autoparts_voltaje" class="flex-fill p-2 bd-highlight"
+                                     style="width: 50%;">
+                                    <t t-call="zue_autoparts_portal.filter_autoparts_fleet">
+                                        <t t-set="selected" t-value="selected_voltaje"/>
+                                        <t t-set="title" t-value="'Voltaje'"/>
+                                        <t t-set="obj" t-value="obj_attributes_autoparts_voltaje"/>
+                                        <t t-set="name" t-value="'voltaje'"/>
+                                        <t t-set="active_search" t-value="False"/>
+                                        <t t-set="is_collapsible" t-value="False"/>
+                                        <t t-set="show_label" t-value="'field_display_name_replace'"/>
+                                    </t>
+                                </div>
+                            </div>
+                            <div t-if="obj_attributes_autoparts_otros" class="d-flex flex-row bd-highlight mb-3">
+                                <div class="flex-fill p-2 bd-highlight" style="min-height: 200px;">
+                                    <h6 class="mb-0">
+                                        Otros
+                                    </h6>
+                                    <div t-attf-class="pt-3">
+                                        <ul class="nav nav-pills flex-column ml-0 flex-nowrap">
+                                            <t t-foreach="obj_attributes_autoparts_otros" t-as="obj_aao">
+                                                <li class="nav-item"
+                                                    t-att-data-search-term="obj_aao.display_name.lower()">
+                                                    <div>
+                                                        <span t-esc="obj_aao.display_name"/>
+                                                        <br/>
+                                                        <select class="js-example-basic-multiple"
+                                                                data-placeholder="..."
+                                                                t-att-id="'autoparts_otros|'+str(obj_aao.id)"
+                                                                multiple="multiple"
+                                                                name="autoparts_otros">
+                                                            <t t-set="unique_options_autoparts_otros"
+                                                               t-value="set()"/>
+                                                            <t t-foreach="obj_attributes_autoparts_otros_values.filtered(lambda x: x.z_attribute_setting_id.id == obj_aao.id)"
+                                                               t-as="obj_aaov">
+                                                                <t t-set="option_value"
+                                                                   t-value="str(obj_aao.id)+'|'+str(obj_aaov.z_value)"/>
+                                                                <t t-if="option_value not in unique_options_autoparts_otros">
+                                                                    <option t-att-value="str(obj_aao.id)+'|'+str(obj_aaov.z_value)"
+                                                                            t-att-selected="str(obj_aao.id)+'|'+str(obj_aaov.z_value) in selected_autoparts_otros">
+                                                                        <span t-esc="obj_aaov.z_value"/>
+                                                                    </option>
+                                                                    <t t-set="unique_options_autoparts_otros"
+                                                                       t-value="unique_options_autoparts_otros.union({option_value})"/>
+                                                                </t>
+                                                            </t>
+                                                        </select>
+                                                    </div>
+                                                </li>
+                                            </t>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <t t-if="obj_filter_parameterization.z_vehicle_specifications and obj_filter_parameterization.z_vehicle_specifications_view in ['both','aside']">
+                        <li class="list-group-item bg-primary text-light">
+                            <h5 class="mb-0">
+                                <span class="fa fa-car"/>
+                                <u>Vehículo</u>
+                            </h5>
+                        </li>
+                        <!-- Year -->
+
+                        <!-- Tipo de vehículo -->
+                        <li t-if="obj_vehicle_type and obj_filter_parameterization.z_static_vehicle_type"
+                            class="list-group-item" style="padding-left: 20px;">
+                            <t t-call="zue_autoparts_portal.filter_autoparts_fleet">
+                                <t t-set="selected" t-value="selected_vehicletype"/>
+                                <t t-set="title" t-value="'Tipo de vehículo'"/>
+                                <t t-set="obj" t-value="obj_vehicle_type"/>
+                                <t t-set="name" t-value="'vehicletype'"/>
+                                <t t-set="active_search" t-value="True"/>
+                                <t t-set="is_collapsible" t-value="True"/>
+                                <t t-set="show_label" t-value="'field_name'"/>
+                            </t>
+                        </li>
+                        <li t-if="obj_stock_vehicle_type and obj_filter_parameterization.z_stock_vehicle_type"
+                            class="list-group-item" style="padding-left: 20px;">
+                            <t t-call="zue_autoparts_portal.filter_autoparts_fleet">
+                                <t t-set="selected" t-value="selected_stock_vehicletype"/>
+                                <t t-set="title" t-value="'Tipo de vehículo'"/>
+                                <t t-set="obj" t-value="obj_stock_vehicle_type"/>
+                                <t t-set="name" t-value="'stock_vehicletype'"/>
+                                <t t-set="active_search" t-value="True"/>
+                                <t t-set="is_collapsible" t-value="True"/>
+                                <t t-set="show_label" t-value="'field_display_name'"/>
+                            </t>
+                        </li>
+                        <!-- Marca vehículo -->
+                        <li t-if="obj_brands_vehicle and obj_filter_parameterization.z_vehicle_specifications"
+                            class="list-group-item" style="padding-left: 20px;">
+                            <t t-call="zue_autoparts_portal.filter_autoparts_fleet">
+                                <t t-set="selected" t-value="selected_brandsvehicle"/>
+                                <t t-set="title" t-value="'Marca'"/>
+                                <t t-set="obj" t-value="obj_brands_vehicle"/>
+                                <t t-set="name" t-value="'brandvehicle'"/>
+                                <t t-set="active_search" t-value="True"/>
+                                <t t-set="is_collapsible" t-value="True"/>
+                                <t t-set="show_label" t-value="'field_name'"/>
+                            </t>
+                        </li>
+                        <!-- Línea -->
+                        <li t-if="obj_vehicle_model and obj_filter_parameterization.z_vehicle_specifications"
+                            class="list-group-item" style="padding-left: 20px;">
+                            <t t-call="zue_autoparts_portal.filter_autoparts_fleet">
+                                <t t-set="selected" t-value="selected_vechiclemodel"/>
+                                <t t-set="title" t-value="'Línea vehículo'"/>
+                                <t t-set="obj" t-value="obj_vehicle_model"/>
+                                <t t-set="name" t-value="'vechiclemodel'"/>
+                                <t t-set="active_search" t-value="True"/>
+                                <t t-set="is_collapsible" t-value="True"/>
+                                <t t-set="show_label" t-value="'field_display_name'"/>
+                            </t>
+                        </li>
+                        <!-- Especificaciones del vehículo -->
+                        <li t-if="obj_vehicle_specifications and obj_filter_parameterization.z_vehicle_specifications"
+                            class="list-group-item" style="padding-left: 20px;">
+                            <t t-call="zue_autoparts_portal.filter_autoparts_fleet">
+                                <t t-set="selected" t-value="selected_vehicle_specifications"/>
+                                <t t-set="title" t-value="'Especificaciones del vehículo'"/>
+                                <t t-set="obj" t-value="obj_vehicle_specifications"/>
+                                <t t-set="name" t-value="'vehiclespecifications'"/>
+                                <t t-set="active_search" t-value="True"/>
+                                <t t-set="is_collapsible" t-value="True"/>
+                                <t t-set="show_label" t-value="'field_z_name'"/>
+                            </t>
+                        </li>
+                        <!-- Atributos Vehiculos -->
+                        <li t-if="obj_attributes_fleet and obj_filter_parameterization.z_features_vehicle"
+                            class="list-group-item" style="padding-left: 20px;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">
+                                    Características
+                                </h6>
+                            </div>
+                            <div class="pt-3">
+                                <!--                        <div class="input-group input-group-sm mb-3">-->
+                                <!--                            <input type="text" class="form-control zue-search" placeholder="Search..."/>-->
+                                <!--                            <div class="input-group-append">-->
+                                <!--                                <span class="input-group-text bg-white border-0">-->
+                                <!--                                    <i class="dri dri-search-l text-body"/>-->
+                                <!--                                </span>-->
+                                <!--                            </div>-->
+                                <!--                        </div>-->
+                                <div class="d-flex flex-row bd-highlight mb-3">
+                                    <div t-if="obj_attributes_fleet_aspimotor" class="flex-fill p-2 bd-highlight"
+                                         style="width: 50%;">
+                                        <t t-call="zue_autoparts_portal.filter_autoparts_fleet">
+                                            <t t-set="selected" t-value="selected_fleet_aspimotor"/>
+                                            <t t-set="title" t-value="'Aspiración del Motor'"/>
+                                            <t t-set="obj" t-value="obj_attributes_fleet_aspimotor"/>
+                                            <t t-set="name" t-value="'fleet_aspimotor'"/>
+                                            <t t-set="active_search" t-value="False"/>
+                                            <t t-set="is_collapsible" t-value="False"/>
+                                            <t t-set="show_label" t-value="'field_display_name_replace'"/>
+                                        </t>
+                                    </div>
+                                    <div t-if="obj_attributes_fleet_cabezamotor" class="flex-fill p-2 bd-highlight"
+                                         style="width: 50%;">
+                                        <t t-call="zue_autoparts_portal.filter_autoparts_fleet">
+                                            <t t-set="selected" t-value="selected_fleet_cabezamotor"/>
+                                            <t t-set="title" t-value="'Cabeza de Motor'"/>
+                                            <t t-set="obj" t-value="obj_attributes_fleet_cabezamotor"/>
+                                            <t t-set="name" t-value="'fleet_cabezamotor'"/>
+                                            <t t-set="active_search" t-value="False"/>
+                                            <t t-set="is_collapsible" t-value="False"/>
+                                            <t t-set="show_label" t-value="'field_display_name_replace'"/>
+                                        </t>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row bd-highlight mb-3">
+                                    <div t-if="obj_attributes_fleet_carroceria" class="flex-fill p-2 bd-highlight"
+                                         style="width: 50%;">
+                                        <t t-call="zue_autoparts_portal.filter_autoparts_fleet">
+                                            <t t-set="selected" t-value="selected_fleet_carroceria"/>
+                                            <t t-set="title" t-value="'Carrocería'"/>
+                                            <t t-set="obj" t-value="obj_attributes_fleet_carroceria"/>
+                                            <t t-set="name" t-value="'fleet_carroceria'"/>
+                                            <t t-set="active_search" t-value="False"/>
+                                            <t t-set="is_collapsible" t-value="False"/>
+                                            <t t-set="show_label" t-value="'field_display_name_replace'"/>
+                                        </t>
+                                    </div>
+                                    <div t-if="obj_attributes_fleet_combustible" class="flex-fill p-2 bd-highlight"
+                                         style="width: 50%;">
+                                        <t t-call="zue_autoparts_portal.filter_autoparts_fleet">
+                                            <t t-set="selected" t-value="selected_fleet_combustible"/>
+                                            <t t-set="title" t-value="'Combustible'"/>
+                                            <t t-set="obj" t-value="obj_attributes_fleet_combustible"/>
+                                            <t t-set="name" t-value="'fleet_combustible'"/>
+                                            <t t-set="active_search" t-value="False"/>
+                                            <t t-set="is_collapsible" t-value="False"/>
+                                            <t t-set="show_label" t-value="'field_display_name_replace'"/>
+                                        </t>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row bd-highlight mb-3">
+                                    <div t-if="obj_attributes_fleet_nivelemisiones" class="flex-fill p-2 bd-highlight"
+                                         style="width: 50%;">
+                                        <t t-call="zue_autoparts_portal.filter_autoparts_fleet">
+                                            <t t-set="selected" t-value="selected_fleet_nivelemisiones"/>
+                                            <t t-set="title" t-value="'Nivel Emisiones'"/>
+                                            <t t-set="obj" t-value="obj_attributes_fleet_nivelemisiones"/>
+                                            <t t-set="name" t-value="'fleet_nivelemisiones'"/>
+                                            <t t-set="active_search" t-value="False"/>
+                                            <t t-set="is_collapsible" t-value="False"/>
+                                            <t t-set="show_label" t-value="'field_display_name_replace'"/>
+                                        </t>
+                                    </div>
+                                    <div t-if="obj_attributes_fleet_transmision" class="flex-fill p-2 bd-highlight"
+                                         style="width: 50%;">
+                                        <t t-call="zue_autoparts_portal.filter_autoparts_fleet">
+                                            <t t-set="selected" t-value="selected_fleet_transmision"/>
+                                            <t t-set="title" t-value="'Transmisión'"/>
+                                            <t t-set="obj" t-value="obj_attributes_fleet_transmision"/>
+                                            <t t-set="name" t-value="'fleet_transmision'"/>
+                                            <t t-set="active_search" t-value="False"/>
+                                            <t t-set="is_collapsible" t-value="False"/>
+                                            <t t-set="show_label" t-value="'field_display_name_replace'"/>
+                                        </t>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row bd-highlight mb-3">
+                                    <div t-if="obj_attributes_fleet_traccion" class="flex-fill p-2 bd-highlight"
+                                         style="width: 50%;">
+                                        <t t-call="zue_autoparts_portal.filter_autoparts_fleet">
+                                            <t t-set="selected" t-value="selected_fleet_traccion"/>
+                                            <t t-set="title" t-value="'Tracción'"/>
+                                            <t t-set="obj" t-value="obj_attributes_fleet_traccion"/>
+                                            <t t-set="name" t-value="'fleet_traccion'"/>
+                                            <t t-set="active_search" t-value="False"/>
+                                            <t t-set="is_collapsible" t-value="False"/>
+                                            <t t-set="show_label" t-value="'field_display_name_replace'"/>
+                                        </t>
+                                    </div>
+                                    <div t-if="obj_attributes_fleet_tipofreno" class="flex-fill p-2 bd-highlight"
+                                         style="width: 50%;">
+                                        <t t-call="zue_autoparts_portal.filter_autoparts_fleet">
+                                            <t t-set="selected" t-value="selected_fleet_tipofreno"/>
+                                            <t t-set="title" t-value="'Tipo Freno'"/>
+                                            <t t-set="obj" t-value="obj_attributes_fleet_tipofreno"/>
+                                            <t t-set="name" t-value="'fleet_tipofreno'"/>
+                                            <t t-set="active_search" t-value="False"/>
+                                            <t t-set="is_collapsible" t-value="False"/>
+                                            <t t-set="show_label" t-value="'field_display_name_replace'"/>
+                                        </t>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row bd-highlight mb-3">
+                                    <div t-if="obj_attributes_fleet_tipovehiculo" class="flex-fill p-2 bd-highlight"
+                                         style="width: 50%;">
+                                        <t t-call="zue_autoparts_portal.filter_autoparts_fleet">
+                                            <t t-set="selected" t-value="selected_fleet_tipovehiculo"/>
+                                            <t t-set="title" t-value="'Tipo de Vehículo'"/>
+                                            <t t-set="obj" t-value="obj_attributes_fleet_tipovehiculo"/>
+                                            <t t-set="name" t-value="'fleet_tipovehiculo'"/>
+                                            <t t-set="active_search" t-value="False"/>
+                                            <t t-set="is_collapsible" t-value="False"/>
+                                            <t t-set="show_label" t-value="'field_display_name_replace'"/>
+                                        </t>
+                                    </div>
+                                </div>
+                                <div t-if="obj_attributes_fleet_otros" class="d-flex flex-row bd-highlight mb-3">
+                                    <div class="flex-fill p-2 bd-highlight" style="min-height: 200px;">
+                                        <h6 class="mb-0">
+                                            Otros
+                                        </h6>
+                                        <div t-attf-class="pt-3">
+                                            <ul class="nav nav-pills flex-column ml-0 flex-nowrap">
+                                                <t t-foreach="obj_attributes_fleet_otros" t-as="obj_afo">
+                                                    <li class="nav-item"
+                                                        t-att-data-search-term="obj_afo.display_name.lower()">
+                                                        <div>
+                                                            <span t-esc="obj_afo.display_name"/>
+                                                            <br/>
+                                                            <select class="js-example-basic-multiple"
+                                                                    data-placeholder="..."
+                                                                    t-att-id="'fleet_otros|'+str(obj_afo.id)"
+                                                                    multiple="multiple"
+                                                                    name="fleet_otros">
+                                                                <t t-set="unique_options_fleet_otros" t-value="set()"/>
+                                                                <t t-foreach="obj_attributes_fleet_otros_values.filtered(lambda x: x.z_attribute_setting_id.id == obj_afo.id)"
+                                                                   t-as="obj_afov">
+                                                                    <t t-set="option_value"
+                                                                       t-value="str(obj_afo.id)+'|'+str(obj_afov.z_value)"/>
+                                                                    <t t-if="option_value not in unique_options_fleet_otros">
+                                                                        <option t-att-value="str(obj_afo.id)+'|'+str(obj_afov.z_value)"
+                                                                                t-att-selected="str(obj_afo.id)+'|'+str(obj_afov.z_value) in selected_fleet_otros">
+                                                                            <span t-esc="obj_afov.z_value"/>
+                                                                        </option>
+                                                                        <t t-set="unique_options_fleet_otros"
+                                                                           t-value="unique_options_fleet_otros.union({option_value})"/>
+                                                                    </t>
+                                                                </t>
+                                                            </select>
+                                                        </div>
+                                                    </li>
+                                                </t>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </t>
+                </ul>
+            </form>
+        </template>
+
+        <!-- FILTROS ZUE -->
+        <template id="zue_autoparts_portal.products_top_filters" inherit_id="website_sale.products"
+                  name="Zue Autopartes Portal - Top Filtros Inherit">
+            <xpath expr="//div[hasclass('products_header')]" position="before">
+                <div class="d-none d-lg-block position-sticky clearfix">
+                    <t t-call="zue_autoparts_portal.products_top_filters_zue"/>
+                </div>
+            </xpath>
+        </template>
+
+        <template id="zue_autoparts_portal.products_filters" inherit_id="website_sale.products_attributes"
+                  name="Zue Autopartes Portal - Aside Filtros Inherit">
+            <xpath expr="//div[hasclass('o_wsale_products_grid_before_rail')]" position="inside">
+                <t t-call="zue_autoparts_portal.products_filters_zue"/>
+            </xpath>
+        </template>
+
+        <template id="zue_autoparts_portal.o_wsale_offcanvas_zue" inherit_id="website_sale.o_wsale_offcanvas"
+                  name="OffcanvasZue">
+            <xpath expr="//div[@id='o_wsale_offcanvas_content']" position="inside">
+                <div style="overflow-y: scroll;" id="o_wsale_offcanvas_content_zue">
+                    <t t-call="zue_autoparts_portal.products_top_filters_zue"/>
+                    <t t-call="zue_autoparts_portal.products_filters_zue"/>
+                </div>
+            </xpath>
+        </template>
+
+        <template id="zue_autoparts_portal.filter_autoparts_fleet" name="Filtros autopartes y vehiculos: Ecommerce">
+            <div class="d-flex justify-content-between align-items-center">
+                <h6 class="mb-0">
+                    <span t-esc="title"/>
+                </h6>
+            </div>
+            <div class="pt-3">
+                <div class="input-group input-group-sm mb-3">
+                    <input type="text" class="form-control zue-search" placeholder="Search..."
+                           t-att-data-filter-id="name"/>
+                    <div class="input-group-append">
+                        <span class="input-group-text bg-white border-0">
+                            <i class="dri dri-search-l text-body"/>
+                        </span>
+                    </div>
+                </div>
+                <ul class="nav nav-pills flex-column ml-0 flex-nowrap" t-att-data-filter-list="name">
+                    <t t-foreach="obj.sorted(key=lambda i: (i.id not in selected, i.display_name), reverse=False)"
+                       t-as="o">
+                        <li class="nav-item" t-att-data-search-term="o.display_name.lower()">
+                            <div class="form-check mb-2 ml-1">
+                                <input type="checkbox" t-att-id="name+'|'+str(o.id)" t-att-name="name"
+                                       class="form-check-input" t-att-value="o.id"
+                                       t-att-checked="'checked' if o.id in selected else None"/>
+                                <label class="form-check-label w-100" t-attf-for="#{o.display_name}-#{o.id}">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <t t-if="show_label == 'field_name'">
+                                                <span t-esc="o.name"/>
+                                            </t>
+                                            <t t-elif="show_label == 'field_z_name'">
+                                                <span t-esc="o.z_name"/>
+                                            </t>
+                                            <t t-elif="show_label == 'field_display_name_replace'">
+                                                <span t-esc="o.display_name.replace(title+' | ','')"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-esc="o.display_name"/>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </li>
+                    </t>
+                </ul>
+            </div>
+        </template>
+
+        <template id="zue_autoparts_portal.filter_autoparts_fleet_combo"
+                  name="Filtros autopartes y vehiculos: Ecommerce Combo">
+            <div class="card rounded-0">
+                <div class="card-header p-1 rounded-0 bg-primary text-light">
+                    <h5 class="card-title text-center m-0">
+                        <span t-esc="title"/>
+                    </h5>
+                </div>
+                <div class="card-body p-0 rounded-0">
+                    <select class="form-select rounded-0" t-att-id="name" t-att-name="name"
+                            t-att-data-filter-list="name">
+                        <option value="0">--Seleccione--</option>
+                        <t t-foreach="obj.sorted(key=lambda i: (i.id not in selected, i.display_name), reverse=False)"
+                           t-as="o">
+                            <option t-att-id="o.id" t-att-value="o.id" t-att-data-search-term="o.display_name.lower()"
+                                    t-att-selected="'selected' if o.id in selected else None">
+                                <t t-if="show_label == 'field_name'">
+                                    <span t-esc="o.name"/>
+                                </t>
+                                <t t-elif="show_label == 'field_z_name'">
+                                    <span t-esc="o.z_name"/>
+                                </t>
+                                <t t-elif="show_label == 'field_display_name_replace'">
+                                    <span t-esc="o.display_name.replace(title+' | ','')"/>
+                                </t>
+                                <t t-else="">
+                                    <span t-esc="o.display_name"/>
+                                </t>
+                            </option>
+                        </t>
+                    </select>
+                </div>
+            </div>
+        </template>
+
+    </data>
+</odoo>

@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stock_segments,stock.segments,model_stock_segments,,1,1,1,1
+access_stock_subsegments,stock.subsegments,model_stock_subsegments,,1,1,1,1
+access_stock_class,stock.class,model_stock_class,,1,1,1,1
+access_stock_type,stock.type,model_stock_type,,1,1,1,1
+access_stock_brands,stock.brands,model_stock_brands,,1,1,1,1
+access_zue_attributes_autoparts,zue.attributes.autoparts,model_zue_attributes_autoparts,,1,1,1,1
+access_zue_attributes_product_autoparts,zue.attributes.product.autoparts,model_zue_attributes_product_autoparts,,1,1,1,1
+access_zue_vehicle_specifications,zue.vehicle.specifications,model_zue_vehicle_specifications,,1,1,1,1
+access_zue_settings_autoparts,zue.settings.autoparts,model_zue_settings_autoparts,,1,1,1,1
+access_zue_settings_fleet,zue.settings.fleet,model_zue_settings_fleet,,1,1,1,1
+access_zue_attributes_vehicle_fleet,zue.attributes.vehicle.fleet,model_zue_attributes_vehicle_fleet,,1,1,1,1
+access_zue_market_research,zue.market.research,model_zue_market_research,,1,1,1,1
+access_vehicle_destination,vehicle.destination,model_vehicle_destination,,1,1,1,1
+access_zue_market_research_x_product,zue.market.research.x.product,model_zue_market_research_x_product,,1,1,1,1
+access_zue_special_locations,zue.special.locations,model_zue_special_locations,,1,1,1,1

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_zue_special_locations" model="ir.actions.act_window">
+            <field name="name">Ubicaciones especiales</field>
+            <field name="res_model">zue.special.locations</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <record model="ir.ui.view" id="zue_special_locations_list">
+            <field name="name">Ubicaciones especiales list</field>
+            <field name="model">zue.special.locations</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="z_code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="zue_special_locations_search" model="ir.ui.view">
+            <field name="name">Ubicaciones especiales search</field>
+            <field name="model">zue.special.locations</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="z_code"/>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>
