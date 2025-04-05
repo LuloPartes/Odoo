@@ -77,7 +77,7 @@
                             <t t-set="name" t-value="'vechiclemodel'"/>
                             <t t-set="active_search" t-value="True"/>
                             <t t-set="is_collapsible" t-value="True"/>
-                            <t t-set="show_label" t-value="'field_display_name'"/>
+                            <t t-set="show_label" t-value="'field_name'"/>
                         </t>
                         <div class="card rounded-0">
                             <div class="card-header p-1 rounded-0 bg-primary text-light">
@@ -355,7 +355,7 @@
                                 <t t-set="name" t-value="'vechiclemodel'"/>
                                 <t t-set="active_search" t-value="True"/>
                                 <t t-set="is_collapsible" t-value="True"/>
-                                <t t-set="show_label" t-value="'field_display_name'"/>
+                                <t t-set="show_label" t-value="'field_name'"/>
                             </t>
                         </li>
                         <!-- Especificaciones del vehículo -->

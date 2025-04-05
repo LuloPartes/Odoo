@@ -30,7 +30,7 @@ class zue_settings_fleet(models.Model):
                 else:
                     name += f' | {record.z_identifier}'
             else:
-                name = record.z_name
+                name = record.z_name or 'Otro'
             record.display_name = name
 
 class zue_attributes_fleet(models.Model):
